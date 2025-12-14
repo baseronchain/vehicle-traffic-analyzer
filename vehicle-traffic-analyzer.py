@@ -112,3 +112,16 @@ class TrafficDetectorGPU:
         except Exception as e:
             print(f"❌ Error loading model: {e}")
             messagebox.showerror("Error", f"Failed to load model: {e}")
+
+def reset_counters(self):
+    self.vehicle_counts = {
+        'mobil': 0,
+        'motor': 0,
+        'bus': 0,
+        'truck': 0
+    }
+    self.total_vehicles = 0
+    self.tracked_vehicles = {}
+    self.counted_ids = set()
+    self.total_frames = 0
+    self.detection_count = 0
