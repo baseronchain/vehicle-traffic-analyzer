@@ -89,3 +89,26 @@ class TrafficDetectorGPU:
             message += "   https://download.pytorch.org/whl/cu121\n"
             message += "3. Restart program"
             messagebox.showwarning("GPU Not Available", message)
+    def load_model(self):
+        """Load YOLO model dengan device specification"""
+        model_name = 'yolov8l.pt' if self.device == 'cuda' else 'yolov8n.pt'
+        
+        try:
+            print(f"Loading {model_name} on {self.device}...")
+            self.model = YOLO(model_name)
+            
+            # Force model ke device
+            self.model.to(self.device)
+            
+            print(f"✅ Model loaded on {self.device}")
+            
+            if self.device == 'cuda':
+                print(f"✅ Model: YOLOv8l (High Accuracy)")
+                print(f"✅ Expected FPS: 35-50")
+            else:
+                print(f"⚠️ Model: YOLOv8n (fallback for CPU)")
+                print(f"⚠️ Expected FPS: 8-12")
+                
+        except Exception as e:
+            print(f"❌ Error loading model: {e}")
+            messagebox.showerror("Error", f"Failed to load model: {e}")
