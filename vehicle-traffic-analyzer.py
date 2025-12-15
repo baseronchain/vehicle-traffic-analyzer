@@ -179,3 +179,22 @@ def load_model(self):
     try:
         print(f"Loading {model_name} on {self.device}...")
         self.model = YOLO(model_name)
+            # Force model ke device
+            self.model.to(self.device)
+
+            if self.device == 'cuda':
+                try:
+                    torch.backends.cudnn.benchmark = True
+                    try:
+                        torch.set_float32_matmul_precision('high')
+                    except Exception:
+                        pass
+                except Exception:
+                    pass
+
+            # Fuse Conv+BN for slightly faster inference if available
+            try:
+                self.model.fuse()
+            except Exception:
+                pass
+            
