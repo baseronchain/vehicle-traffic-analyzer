@@ -125,3 +125,28 @@ def reset_counters(self):
     self.counted_ids = set()
     self.total_frames = 0
     self.detection_count = 0
+        self.setup_gui()
+        
+        # GUI rendering throttling (Tkinter is a common FPS bottleneck)
+        self.target_display_fps = 20  # render rate, not detection rate
+        self._gui_interval_ms = max(1, int(1000 / self.target_display_fps))
+        self.frame_queue = Queue(maxsize=1)  # keep only latest frame
+        self._track_call_mode = 0  # 0=unknown, 1=half+imgsz ok, 2=imgsz ok, 3=basic only
+        self.infer_imgsz = 640
+        self.use_half = (self.device == 'cuda')
+        self.root.after(self._gui_interval_ms, self.gui_update_loop)
+    
+    def detect_device(self):
+        """Detect GPU dan return optimal device"""
+        if torch.cuda.is_available():
+            device = 'cuda'
+            gpu_name = torch.cuda.get_device_name(0)
+            print(f"✅ GPU DETECTED: {gpu_name}")
+            print(f"✅ CUDA Version: {torch.version.cuda}")
+            print(f"✅ GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.2f} GB")
+            return device
+        else:
+            device = 'cpu'
+            print("⚠️ GPU NOT AVAILABLE - Running on CPU")
+            print("💡 Install PyTorch with CUDA: pip install torch --index-url https://download.pytorch.org/whl/cu121")
+            return device
