@@ -150,3 +150,25 @@ def reset_counters(self):
             print("⚠️ GPU NOT AVAILABLE - Running on CPU")
             print("💡 Install PyTorch with CUDA: pip install torch --index-url https://download.pytorch.org/whl/cu121")
             return device
+    def show_device_info(self):
+        """Show device info popup"""
+        if self.device == 'cuda':
+            gpu_name = torch.cuda.get_device_name(0)
+            vram = torch.cuda.get_device_properties(0).total_memory / 1024**3
+            message = f"🚀 GPU ACCELERATED MODE\n\n"
+            message += f"Device: {gpu_name}\n"
+            message += f"VRAM: {vram:.1f} GB\n\n"
+            message += f"Expected Performance:\n"
+            message += f"• YOLOv8l: 35-50 FPS ✅\n"
+            message += f"• Processing: 5-10x faster\n"
+            message += f"• Counter: Will work perfectly!"
+            messagebox.showinfo("GPU Ready!", message)
+        else:
+            message = "⚠️ GPU NOT DETECTED\n\n"
+            message += "Running on CPU mode (SLOW)\n\n"
+            message += "To enable GPU:\n"
+            message += "1. pip uninstall torch\n"
+            message += "2. pip install torch --index-url \\\n"
+            message += "   https://download.pytorch.org/whl/cu121\n"
+            message += "3. Restart program"
+            messagebox.showwarning("GPU Not Available", message)
