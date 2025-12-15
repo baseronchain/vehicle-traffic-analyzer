@@ -172,3 +172,10 @@ def reset_counters(self):
             message += "   https://download.pytorch.org/whl/cu121\n"
             message += "3. Restart program"
             messagebox.showwarning("GPU Not Available", message)
+def load_model(self):
+    """Load YOLO model dengan device specification"""
+    model_name = 'yolov8l.pt' if self.device == 'cuda' else 'yolov8n.pt'
+    
+    try:
+        print(f"Loading {model_name} on {self.device}...")
+        self.model = YOLO(model_name)
