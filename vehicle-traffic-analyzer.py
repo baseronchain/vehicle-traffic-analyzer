@@ -200,7 +200,6 @@ def load_model(self):
                            except Exception:
                    pass
 
-           # Fuse Conv+BN for slightly faster inference if availabl
            
            print(f"Model loaded on {self.device}")
            
