@@ -197,4 +197,24 @@ def load_model(self):
                 self.model.fuse()
             except Exception:
                 pass
-            
+                           except Exception:
+                   pass
+
+           # Fuse Conv+BN for slightly faster inference if available
+           try:
+               self.model.fuse()
+           except Exception:
+               pass
+           
+           print(f"Model loaded on {self.device}")
+           
+           if self.device == 'cuda':
+               print(f"")
+               print(f"")
+           else:
+               print(f"")
+               print(f"")
+               
+       except Exception as e:
+           print(f"Error loading model: {e}")
+           messagebox.showerror("Error", f"Failed to load model: {e}")
