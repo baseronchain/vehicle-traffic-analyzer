@@ -201,4 +201,4 @@ def load_model(self):
                    pass
 
            
-           print(f"Model loaded on {self.device}") 
+           print(f"Model loaded on {self.device}")   
