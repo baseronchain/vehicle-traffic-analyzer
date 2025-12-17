@@ -202,4 +202,3 @@ def load_model(self):
 
            
            print(f"Model loaded on {self.device}")
-           
