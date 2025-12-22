@@ -28,3 +28,27 @@ class TrafficDetectorGPU:
             5: 'bus',
             7: 'truck'
         }
+         # untuk tracking
+ self.tracked_vehicles = {}
+ self.counted_ids = set()
+ 
+ 
+ self.counting_line_y = 280
+ self.line_offset = 40  # balancee
+ self.confidence_threshold = 0.5  
+ 
+ 
+ self.reset_counters()
+ 
+ 
+ self.cap = None
+ self.is_running = False
+ self.video_thread = None
+ self.frame_width = 640
+ self.frame_height = 480
+ 
+ 
+ self.total_frames = 0
+ self.detection_count = 0
+ 
+ self.setup_gui()
